@@ -22,28 +22,27 @@ and adjusting your future predictions. Because you have this feedback, you shoul
 
 # How to use
 
-Start a task:
+Starting a task:
 
 ```
 $ task start
-description: Create endpoint to allow logging off
+Description of task: Create endpoint to allow logging off
 estimated range of time to completion (90% CI): 20 - 30 minutes
 task #3 created at 2018-01-04 12:38:28
 ```
 
-Finish a task:
+Ending a task:
 ```
-$ task finish
-finish task #3? (y/N) y
-task #3 finished at 2018-01-04 13:03:29 (25 minutes) correct!
+$ task end
+end task #3? (y/N) y
+task #3 ended at 2018-01-04 13:03:29 (25 minutes) correct!
 For 90% CI you are currently 67% correct (2/3 correct),
 consider widening intervals or breaking tasks down to improve this number
 ```
 
 ## Multi-tasking
-If you can avoid it, you should. But if you have to, just pass the `id` of the task in as an argument to the `start` and `finish` subcommands.
+If you can avoid it, you should. But if you have to, just pass the `id` of the task in as an argument to the `start` and `end` subcommands.
 
 # Habit
-Once this is a habit, and you start using the feedback from this tool, you should improve at estimating how long it takes you to finish tasks.
-Doing this for smaller tasks is easier, but as your gain experience and become more calibrated, you should be able to start estimating larger
-tasks.
+Once this is a habit, and you start using the feedback from this tool, you should improve at estimating how long it takes you to complete tasks.
+Doing this for smaller tasks is easier, but as you gain experience and become more calibrated, you should be able to start estimating larger tasks.
