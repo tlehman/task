@@ -33,7 +33,6 @@ def create_database_if_not_present():
         columns = "id integer primary key autoincrement, description text, " \
             + "ci_level real, range_min integer, range_max integer, " \
             + "started timestring, ended timestring"
-        print("CREATE TABLE tasks (%s)" % columns)
         cur = db.execute("CREATE TABLE tasks (%s)" % columns)
         db.commit()
         cur.close()

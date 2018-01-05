@@ -36,32 +36,37 @@ class Task(object):
             exit(1)
 
     def start_and_save(self):
-        pass
+        from database import modify_db
+        columns = "description, ci_level, range_min, range_max, started"
+        values = "'%s', %f, %d, %d, datetime('now')" % \
+            (self.description, self.ci_level, self.range_min, self.range_max)
+        sql = "INSERT INTO tasks (%s) VALUES (%s)" % (columns, values)
+        modify_db(sql)
 
     def finish_and_save(self):
-        pass
+        from database import modify_db
+        sql = "UPDATE tasks SET ended = datetime('now') WHERE ID = %d"
+        modify_db(sql % self.id)
 
     def __str__(self):
         return "task #%d started at <%s>" % (self.id, self.started)
 
 def get_current_task_from_db():
-    sql = "SELECT max(id) as id, description, ci_level, range_min, range_max, started, ended FROM tasks"
+    sql = "SELECT max(id) as id, description, ci_level, range_min, range_max, started, ended FROM tasks WHERE ended IS NULL"
     results = query_db(sql)
     task = Task(results[0])
-    task.finish()
-    print(task)
     return task
 
 
 if argv[1] == "start":
     task = Task(None)
     print("Description of task: ")
-    task.description = stdin.readline()
+    task.description = stdin.readline().strip()
     task.ci_level = 0.9 # default to 90% Confidence Interval for 1st iteration
     print("Estimated range of time to completion (90% CI): ")
-    task.range_raw = stdin.readline()
+    task.range_raw = stdin.readline().strip()
     task.process_ranges()
     task.start_and_save()
 elif argv[1] == "end":
     task = get_current_task_from_db()
-    print(task.id)
+    task.finish_and_save()

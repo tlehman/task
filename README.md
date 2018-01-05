@@ -27,7 +27,7 @@ Starting a task:
 ```
 $ task start
 Description of task: Create endpoint to allow logging off
-estimated range of time to completion (90% CI): 20 - 30 minutes
+Estimated range of time to completion (90% CI): 20 - 30 minutes
 task #3 created at 2018-01-04 12:38:28
 ```
 
