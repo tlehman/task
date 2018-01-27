@@ -1,7 +1,7 @@
 import sqlite3
 import os
 
-DATABASE = './tasks.db'
+DATABASE = os.path.join(os.getenv('HOME'), '.tasks.db')
 
 def make_dicts(cursor, row):
     return dict((cursor.description[idx][0], value)

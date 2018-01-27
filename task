@@ -4,7 +4,7 @@ from database import *
 from sys import argv, exit, stdin
 
 if len(argv) == 1:
-    print("Usage: \n  task start\n  task end")
+    print("Usage: \n  task start\n  task ls\n  task end")
     exit(1)
 
 create_database_if_not_present()
@@ -67,6 +67,18 @@ if argv[1] == "start":
     task.range_raw = stdin.readline().strip()
     task.process_ranges()
     task.start_and_save()
+elif argv[1] == "ls":
+    sql = "SELECT id, description, ci_level, range_min, range_max, started, ended FROM tasks"
+    results = query_db(sql)
+    for r in results:
+        print("(id: {id}) {description}".format(**r))
+        print("  90% CI: {range_min} - {range_max} minutes".format(**r))
+        print("  Started on: {started}".format(**r))
+        if r['ended'] != None:
+            print("  Ended on: {ended}\n".format(**r))
+        else:
+            print("")
+
 elif argv[1] == "end":
     task = get_current_task_from_db()
     task.finish_and_save()
