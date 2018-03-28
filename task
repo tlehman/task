@@ -75,7 +75,19 @@ elif argv[1] == "ls":
         print("  90% CI: {range_min} - {range_max} minutes".format(**r))
         print("  Started on: {started}".format(**r))
         if r['ended'] != None:
-            print("  Ended on: {ended}\n".format(**r))
+            from datetime import datetime
+            fmt = "%Y-%m-%d %H:%M:%S"
+            a = datetime.strptime(r['started'], fmt)
+            b = datetime.strptime(r['ended'], fmt)
+            c = b - a
+            m = c.seconds / 60
+            on_time = (m >= int(r['range_min']) and m <= int(r['range_max']))
+            if on_time:
+                status = "Accurate"
+            else:
+                status = "Inaccurate"
+            print("  Ended on: {ended}".format(**r))
+            print("  Total time: %d minutes, %s Estimate\n" % (m, status))
         else:
             print("")
 
