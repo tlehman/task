@@ -4,7 +4,7 @@ from database import *
 from sys import argv, exit, stdin
 
 if len(argv) == 1:
-    print("Usage: \n  task start\n  task ls\n  task end")
+    print("Usage: \n  task start\n  task ls\n  task end\n  calibration")
     exit(1)
 
 create_database_if_not_present()
@@ -94,3 +94,18 @@ elif argv[1] == "ls":
 elif argv[1] == "end":
     task = get_current_task_from_db()
     task.finish_and_save()
+elif argv[1] == "calibration":
+    sql = "SELECT id, description, ci_level, range_min, range_max, started, ended FROM tasks WHERE ended IS NOT NULL"
+    results = query_db(sql)
+    number_on_time = 0
+    for r in results:
+        from datetime import datetime
+        fmt = "%Y-%m-%d %H:%M:%S"
+        a = datetime.strptime(r['started'], fmt)
+        b = datetime.strptime(r['ended'], fmt)
+        c = b - a
+        m = c.seconds / 60
+        on_time = (m >= int(r['range_min']) and m <= int(r['range_max']))
+        if on_time:
+            number_on_time += 1
+    print "%f" % (float(number_on_time) / len(results))
