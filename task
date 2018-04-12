@@ -2,6 +2,13 @@
 
 from database import *
 from sys import argv, exit, stdin
+import signal
+
+def signal_handler(sig, frame):
+   import sys
+   sys.exit(0)
+
+signal.signal(signal.SIGINT, signal_handler)
 
 if len(argv) == 1:
     print("Usage: \n  task start\n  task ls\n  task end\n  calibration")
